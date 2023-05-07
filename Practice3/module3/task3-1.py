@@ -17,12 +17,12 @@ def load_csv(filename):
 messages = load_csv('messages.csv')
 checks = load_csv('checks.csv')
 statuses = load_csv('statuses.csv')
-"""
+
 
 # Extract the timestamps of messages and checks
 message_times = [parse_time(row[4]) for row in messages]
 check_times = [parse_time(row[2]) for row in checks]
-"""
+
 """
 # Задача 1
 # Count the number of messages and checks for each day of the week
@@ -42,7 +42,6 @@ plt.title('Student Activity by Day of the Week')
 plt.xlabel('Day of the Week')
 plt.ylabel('Number of Actions')
 plt.show()
-
 
 """
 """
@@ -88,7 +87,6 @@ avg_messages_per_task = num_messages / num_tasks
 
 print(f'Average messages per task: {avg_messages_per_task}')
 """
-
 """
 # Задача 4
 tasks = [row[1] for row in messages]
@@ -118,7 +116,6 @@ plt.xlabel('Days Since Beginning of Semester')
 plt.ylabel('Number of Messages')
 plt.show()
 """
-
 """
 # Задача 5
 # Create a dictionary to store the number of messages for each group
@@ -137,7 +134,6 @@ plt.xlabel('Group')
 plt.ylabel('Number of Messages')
 plt.show()
 """
-
 """
 #Задача 6
 # Create a dictionary to store the number of correct solutions for each group
@@ -161,7 +157,6 @@ plt.xlabel('Group')
 plt.ylabel('Number of Correct Solutions')
 plt.show()
 """
-
 """
 # Задача 7
 # Create a dictionary to store the number of correct and incorrect solutions for each task
@@ -191,7 +186,6 @@ plt.xlabel('Task')
 plt.ylabel('Number of Solutions')
 plt.show()
 """
-
 """
 # Задача 8
 achievements_by_group = {}
@@ -219,7 +213,7 @@ plt.title('Achievements Earned by Group')
 plt.show()
 """
 
-"""
+
 #Задача 9
 # Extract the achievements data and group by student ID
 achievements_by_student = {}
@@ -246,7 +240,7 @@ sorted_students = sorted(achievements_by_student.items(), key=lambda x: x[1], re
 num_students = min(len(sorted_students), 10)
 for i in range(num_students):
     print(f"{i+1}. Student {sorted_students[i][0]} earned {sorted_students[i][1]} achievements.")
-"""
+
 
 """
 #Задача 9
