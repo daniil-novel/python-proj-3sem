@@ -1,17 +1,17 @@
 import random
 
 # Константы для настройки карты
-MAP_WIDTH = 50 # ширина карты
-MAP_HEIGHT = 50 # высота карты
-TRAP_COUNT = 10 # количество ловушек на карте
-COMPLEXITY = 0.75 # сложность карты, от 0 до 1
+MAP_WIDTH = 50  # ширина карты
+MAP_HEIGHT = 50  # высота карты
+TRAP_COUNT = 10  # количество ловушек на карте
+COMPLEXITY = 1  # сложность карты, от 0 до 1
 
 # Объекты на карте
-EMPTY = 0 # пустое место
-WALL = 1 # стена
-TRAP = 2 # ловушка
-USER_SPAWN = 3 # точка спавна пользователя
-NEURO_SPAWN = 4 # точка спавна нейросети
+EMPTY = 0  # пустое место
+WALL = 1  # стена
+TRAP = 2  # ловушка
+USER_SPAWN = 3  # точка спавна пользователя
+NEURO_SPAWN = 4  # точка спавна нейросети
 EXIT = 5
 
 # Создание двумерного массива, заполненного пустыми местами
@@ -19,6 +19,21 @@ map_array = [[EMPTY for y in range(MAP_HEIGHT)] for x in range(MAP_WIDTH)]
 
 # Список точек спавна
 spawn_points = []
+
+
+def is_wall(x, y):
+    """
+    Функция проверяет, является ли клетка (x, y) на карте стеной.
+    :param x: координата x клетки
+    :param y: координата y клетки
+    :return: True, если клетка является стеной, иначе False
+    """
+    if x < 0 or y < 0 or x >= MAP_WIDTH or y >= MAP_HEIGHT:
+        # если координаты выходят за пределы карты, то считаем, что это стена
+        return True
+    else:
+        return map_array[x][y] == WALL
+
 
 # Функция для добавления стен на карту
 def add_walls():
@@ -35,6 +50,7 @@ def add_traps():
         x = random.randint(1, MAP_WIDTH - 2)
         y = random.randint(1, MAP_HEIGHT - 2)
         map_array[x][y] = TRAP
+
 
 def add_spawns():
     # добавляем точку спавна пользователя в левый верхний угол карты
@@ -95,6 +111,24 @@ def map_init():
     # Добавляем точку перехода на следующий уровень
     add_level_exit()
 
+def map_draw(map_array):
+    for y in range(MAP_HEIGHT):
+        for x in range(MAP_WIDTH):
+            if map_array[x][y] == WALL:
+                print("#", end="")
+            elif map_array[x][y] == TRAP:
+                print("*", end="")
+            elif map_array[x][y] == USER_SPAWN:
+                print("U", end="")
+            elif map_array[x][y] == NEURO_SPAWN:
+                print("N", end="")
+            elif map_array[x][y] == EXIT:
+                print("E", end="")
+            else:
+                print(".", end="")
+        print()
 
-# Отрисовываем карту
+
+# Инициализация карту
 map_init()
+#map_draw(map_array)

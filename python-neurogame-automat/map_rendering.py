@@ -1,18 +1,19 @@
-
 import pygame
 import map
 from player import Player
 
 # Константы для настройки карты
-SCREEN_WIDTH = 1000 # ширина экрана
-SCREEN_HEIGHT = 1000 # высота экрана
-TILE_SIZE = 20 # размер одного квадратика на карте
-WALL_TEXTURE = pygame.image.load("wall_texture.png") # текстура стен
-ROAD_TEXTURE = pygame.image.load("road_texture.png") # текстура дороги
+SCREEN_WIDTH = 1000  # ширина экрана
+SCREEN_HEIGHT = 1000  # высота экрана
+TILE_SIZE = 20  # размер одного квадратика на карте
+WALL_TEXTURE = pygame.image.load("wall_texture.png")  # текстура стен
+ROAD_TEXTURE = pygame.image.load("road_texture.png")  # текстура дороги
+
 
 def set_screen_size(size):
     global screen_size
     screen_size = size
+
 
 # Инициализация библиотеки pygame
 pygame.init()
@@ -31,11 +32,14 @@ wall_texture = pygame.transform.scale(WALL_TEXTURE, TEXTURE_SIZE)
 road_texture = pygame.transform.scale(ROAD_TEXTURE, TEXTURE_SIZE)
 
 # Функция для отрисовки карты на экране
+
+
 def draw_map():
     for x in range(map.MAP_WIDTH):
         for y in range(map.MAP_HEIGHT):
             tile = map.map_array[x][y]
-            tile_rect = pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+            tile_rect = pygame.Rect(
+                x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
 
             # Отрисовка текстуры для стен
             if tile == map.WALL:
@@ -54,7 +58,10 @@ def draw_map():
                 pygame.draw.rect(screen, (255, 255, 255), tile_rect)
 
 # Функция для тестирования отрисовки карты
+
+
 def test_map_rendering():
+
     """
     # Добавление стен на карту
     map.add_walls()
@@ -71,18 +78,18 @@ def test_map_rendering():
 """
     # Создание объекта player
     player = Player()
-
+    clock = pygame.time.Clock()
     # Создание бесконечного цикла для отрисовки карты
     while True:
         # Обработка событий
         for event in pygame.event.get():
+            player.handle_events(event)
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
-            player.handle_events()
 
-        # Обновление состояния игрока
-        #player.handle_events()
+
+        player.update()  # добавляем вызов метода update()
 
         # Очистка экрана
         screen.fill((255, 255, 255))
@@ -94,7 +101,10 @@ def test_map_rendering():
         player.draw(screen)
 
         # Обновление экрана
-        pygame.display.flip()
+        pygame.display.update()
+        # Установка частоты кадров
+        clock.tick(60)
+
 
 # Запуск функции тестирования
 test_map_rendering()
