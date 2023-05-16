@@ -56,7 +56,7 @@ class Player:
     def draw(self, screen):
         # определяем цвет и размер игрока
         color = (0, 128, 255)
-        radius = 5
+        radius = 10
 
         # определяем координаты вершин шестиугольника
         points = [
@@ -86,3 +86,5 @@ class Player:
         elif self.move_right_flag:
             self.move_right()
 
+    def move_player_left(player):
+        player.x -= 10

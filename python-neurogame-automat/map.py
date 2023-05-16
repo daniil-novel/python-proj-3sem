@@ -4,7 +4,7 @@ import random
 MAP_WIDTH = 50  # ширина карты
 MAP_HEIGHT = 50  # высота карты
 TRAP_COUNT = 10  # количество ловушек на карте
-COMPLEXITY = 1  # сложность карты, от 0 до 1
+COMPLEXITY = 0  # сложность карты, от 0 до 1
 
 # Объекты на карте
 EMPTY = 0  # пустое место
@@ -41,7 +41,7 @@ def add_walls():
         for y in range(MAP_HEIGHT):
             if x == 0 or y == 0 or x == MAP_WIDTH - 1 or y == MAP_HEIGHT - 1:
                 map_array[x][y] = WALL
-            elif random.random() > COMPLEXITY:
+            elif random.random() < COMPLEXITY:
                 map_array[x][y] = WALL
 
 # Функция для добавления ловушек на карту
@@ -131,4 +131,5 @@ def map_draw(map_array):
 
 # Инициализация карту
 map_init()
+#map_draw(map_array)
 #map_draw(map_array)

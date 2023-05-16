@@ -1,0 +1,1 @@
+import random; import string; s_len = 5; print(''.join(random.choice(string.ascii_lowercase) for i in range(s_len)))

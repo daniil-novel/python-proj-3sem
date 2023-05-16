@@ -1,0 +1,1 @@
+"price" = float(input("Enter the price of a donut: "))

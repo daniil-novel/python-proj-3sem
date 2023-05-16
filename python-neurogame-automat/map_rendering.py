@@ -1,6 +1,7 @@
 import pygame
 import map
 from player import Player
+from player import *
 
 # Константы для настройки карты
 SCREEN_WIDTH = 1000  # ширина экрана
@@ -82,7 +83,18 @@ def test_map_rendering():
     # Создание бесконечного цикла для отрисовки карты
     while True:
         # Обработка событий
+        #player.y -= 10
+
         for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    player.y += 5
+                if event.key == pygame.K_DOWN:
+                    player.y -= 5
+                if event.key == pygame.K_LEFT:
+                    player.x -= 5
+                if event.key == pygame.K_RIGHT:
+                    player.x += 5
             player.handle_events(event)
             if event.type == pygame.QUIT:
                 pygame.quit()

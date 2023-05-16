@@ -1,0 +1,2 @@
+GLOBAL_VAR = 0
+print(GLOBAL_VAR)
