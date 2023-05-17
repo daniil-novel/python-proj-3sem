@@ -10,7 +10,7 @@ def print_player_coordinates(player):
 
 
 class Player:
-    def __init__(self, x=100, y=200):
+    def __init__(self, x=110, y=210):
         self.x = x
         self.y = y
         self.move_up_flag = False
@@ -19,58 +19,59 @@ class Player:
         self.move_right_flag = False
 
     def move_up(self):
-        if map.is_wall(self.x, self.y - 1):
+        if map.is_wall(self.x, self.y - 5):
             print("Cannot move up, there is a wall.")
+            self.y += 5
         else:
-            self.y -= 1
+            self.move_up_flag = False
+            self.y -= 5
 
     def move_down(self):
-        if map.is_wall(self.x, self.y + 1):
+        if map.is_wall(self.x, self.y + 5):
             print("Cannot move down, there is a wall.")
+            self.y -= 5
         else:
-            self.y += 1
+            self.move_down_flag = False
+            self.y += 5
 
     def move_left(self):
-        if map.is_wall(self.x - 1, self.y):
+        if map.is_wall(self.x - 5, self.y):
             print("Cannot move left, there is a wall.")
+            self.x += 5
         else:
-            self.x -= 1
+            self.move_left_flag = False
+            self.x -= 5
 
     def move_right(self):
-        if map.is_wall(self.x + 1, self.y):
+        if map.is_wall(self.x + 5, self.y):
             print("Cannot move right, there is a wall.")
+            self.x -= 5
         else:
-            self.x += 1
+            self.move_right_flag = False
+            self.x += 5
 
     def handle_events(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                self.direction = "up"
+                self.move_up_flag = True
             if event.key == pygame.K_DOWN:
-                self.direction = "down"
+                self.move_down_flag = True
             if event.key == pygame.K_LEFT:
-                self.direction = "left"
+                self.move_left_flag = True
             if event.key == pygame.K_RIGHT:
-                self.direction = "right"
+                self.move_right_flag = True
 
     def draw(self, screen):
         # определяем цвет и размер игрока
-        color = (0, 128, 255)
-        radius = 10
+        color = (255, 255, 255)
+        radius = 5
 
         # определяем координаты вершин шестиугольника
         points = [
-            (self.x + radius * math.cos(0), self.y + radius * math.sin(0)),
-            (self.x + radius * math.cos(1 * math.pi / 3),
-             self.y + radius * math.sin(1 * math.pi / 3)),
-            (self.x + radius * math.cos(2 * math.pi / 3),
-             self.y + radius * math.sin(2 * math.pi / 3)),
-            (self.x + radius * math.cos(math.pi),
-             self.y + radius * math.sin(math.pi)),
-            (self.x + radius * math.cos(4 * math.pi / 3),
-             self.y + radius * math.sin(4 * math.pi / 3)),
-            (self.x + radius * math.cos(5 * math.pi / 3),
-             self.y + radius * math.sin(5 * math.pi / 3))
+            (self.x - radius, self.y - radius),  # Верхняя левая вершина
+            (self.x + radius, self.y - radius),  # Верхняя правая вершина
+            (self.x + radius, self.y + radius),  # Нижняя правая вершина
+            (self.x - radius, self.y + radius)  # Нижняя левая вершина
         ]
 
         # рисуем шестиугольник
@@ -86,5 +87,4 @@ class Player:
         elif self.move_right_flag:
             self.move_right()
 
-    def move_player_left(player):
-        player.x -= 10
+

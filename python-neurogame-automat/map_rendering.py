@@ -8,7 +8,7 @@ SCREEN_WIDTH = 1000  # ширина экрана
 SCREEN_HEIGHT = 1000  # высота экрана
 TILE_SIZE = 20  # размер одного квадратика на карте
 WALL_TEXTURE = pygame.image.load("wall_texture.png")  # текстура стен
-ROAD_TEXTURE = pygame.image.load("road_texture.png")  # текстура дороги
+ROAD_TEXTURE = pygame.image.load("road_texture1.png")  # текстура дороги
 
 
 def set_screen_size(size):
@@ -86,15 +86,6 @@ def test_map_rendering():
         #player.y -= 10
 
         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    player.y += 5
-                if event.key == pygame.K_DOWN:
-                    player.y -= 5
-                if event.key == pygame.K_LEFT:
-                    player.x -= 5
-                if event.key == pygame.K_RIGHT:
-                    player.x += 5
             player.handle_events(event)
             if event.type == pygame.QUIT:
                 pygame.quit()

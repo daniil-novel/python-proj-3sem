@@ -1,10 +1,11 @@
 import random
+import map_rendering
 
 # Константы для настройки карты
 MAP_WIDTH = 50  # ширина карты
 MAP_HEIGHT = 50  # высота карты
 TRAP_COUNT = 10  # количество ловушек на карте
-COMPLEXITY = 0  # сложность карты, от 0 до 1
+COMPLEXITY = 0.2  # сложность карты, от 0 до 1
 
 # Объекты на карте
 EMPTY = 0  # пустое место
@@ -20,19 +21,18 @@ map_array = [[EMPTY for y in range(MAP_HEIGHT)] for x in range(MAP_WIDTH)]
 # Список точек спавна
 spawn_points = []
 
+def convert_to_cell(x, y):
+    cell_x = x // map_rendering.TILE_SIZE
+    cell_y = y // map_rendering.TILE_SIZE
+    return cell_x, cell_y
+# преобразовывает пиксельные значения в значения блока (n-ый блок
+# относительно границ экрана)
+
 
 def is_wall(x, y):
-    """
-    Функция проверяет, является ли клетка (x, y) на карте стеной.
-    :param x: координата x клетки
-    :param y: координата y клетки
-    :return: True, если клетка является стеной, иначе False
-    """
-    if x < 0 or y < 0 or x >= MAP_WIDTH or y >= MAP_HEIGHT:
-        # если координаты выходят за пределы карты, то считаем, что это стена
-        return True
-    else:
-        return map_array[x][y] == WALL
+    cell_x, cell_y = convert_to_cell(x, y)
+    print("cell x: ", cell_x, "cell y: ", cell_y)
+    return map_array[cell_x][cell_y] == WALL
 
 
 # Функция для добавления стен на карту
@@ -54,8 +54,8 @@ def add_traps():
 
 def add_spawns():
     # добавляем точку спавна пользователя в левый верхний угол карты
-    user_spawn_x = random.randint(3, 5)
-    user_spawn_y = random.randint(3, 5)
+    user_spawn_x = random.randint(4, 14)
+    user_spawn_y = random.randint(2, 16)
     map_array[user_spawn_x][user_spawn_y] = USER_SPAWN
     spawn_points.append((user_spawn_x, user_spawn_y))
 
@@ -124,12 +124,12 @@ def map_draw(map_array):
                 print("N", end="")
             elif map_array[x][y] == EXIT:
                 print("E", end="")
-            else:
+            elif map_array[x][y] == EMPTY:
                 print(".", end="")
         print()
 
 
 # Инициализация карту
 map_init()
-#map_draw(map_array)
+map_draw(map_array)
 #map_draw(map_array)
