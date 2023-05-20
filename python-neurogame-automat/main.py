@@ -1,48 +1,45 @@
 import pygame
-import map
-from map_rendering import TILE_SIZE
+import map_rendering
 from player import Player
+import game_map as map
 
-pygame.init()
-
+# Добавьте остальной функционал, ранее находившийся в функции
+# test_map_rendering()
 def main():
-    '''# Создаем карту и добавляем на нее стены, ловушки, точки спавна и выход на следующий уровень
-    map.add_walls()
-    map.add_traps()
-    map.add_spawns()
-    map.add_level_exit()
-
-    # Создаем игрока и устанавливаем его начальную позицию
-    player = Player(50, 50)
-
-    # Запускаем игровой цикл
     pygame.init()
-    surface = pygame.display.set_mode((map.MAP_WIDTH * TILE_SIZE, map.MAP_HEIGHT * TILE_SIZE))
-    clock = pygame.time.Clock()
-    running = True
-    while running:
-        # Обработка событий
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            elif event.type == pygame.MOUSEBUTTONUP:
-                # Перемещаем игрока к позиции, кликнутой мышью
-                player.set_target(*event.pos)
 
-        # Обновление состояния игры
+    # Создание окна
+    screen = pygame.display.set_mode(map_rendering.screen_size)
+
+    # Создание объекта player
+    player = Player()
+    clock = pygame.time.Clock()
+
+    # Создание бесконечного цикла для отрисовки карты
+    while True:
+        for event in pygame.event.get():
+            player.handle_events(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return
         player.update()
 
-        # Отрисовка состояния игры
-        surface.fill((255, 255, 255))
-        player.draw(surface)
-        pygame.display.flip()
+        # Очистка экрана
+        screen.fill((255, 255, 255))
 
-        # Ограничение частоты кадров
+        # Отрисовка карты из модуля map_rendering
+        map_rendering.draw_map()
+
+        # Отрисовка игрока
+        player.draw(screen)
+
+        # Обновление экрана
+        pygame.display.update()
+
+        # Установка частоты кадров
         clock.tick(60)
 
-    pygame.quit()
-    '''
 
-
-if __name__ == '__main__':
+# Запуск функции main()
+if __name__ == "__main__":
     main()

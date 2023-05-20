@@ -1,7 +1,8 @@
 import math
 import pygame
-import map
+import game_map as map
 import time
+
 
 def print_player_coordinates(player):
     while True:
@@ -86,5 +87,3 @@ class Player:
             self.move_left()
         elif self.move_right_flag:
             self.move_right()
-
-
