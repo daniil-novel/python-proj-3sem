@@ -1,24 +1,14 @@
-import math
 import pygame
 import game_map as map
 import time
 import constants
 
-def print_player_coordinates(player):
-    while True:
-        print(f"Player coordinates: ({player.x}, {player.y})")
-        time.sleep(1)
-
-
-class Player:
-    def __init__(self, x=110, y=210, speed=5, radius=5):
-        spawn_point = map.spawn_points[0]  # Берем точку спавна пользователя
+class NeuroPlayer:
+    def __init__(self, x=610, y=310, speed=5, radius = 5):
+        spawn_point = map.spawn_points[1]  # Берем точку спавна нейроигрока
         self.cell_x, self.cell_y = spawn_point
-        self.x = (self.cell_x * constants.TILE_SIZE) + (
-                    constants.TILE_SIZE // 2)
-        self.y = (self.cell_y * constants.TILE_SIZE) + (
-                    constants.TILE_SIZE // 2)
-
+        self.x = (self.cell_x * constants.TILE_SIZE) + (constants.TILE_SIZE // 2)
+        self.y = (self.cell_y * constants.TILE_SIZE) + (constants.TILE_SIZE // 2)
         self.speed = speed
 
         self.move_up_flag = False
@@ -57,22 +47,22 @@ class Player:
 
     def handle_events(self, event):
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_w:
                 self.move_up_flag = True
-            if event.key == pygame.K_DOWN:
+            elif event.key == pygame.K_s:
                 self.move_down_flag = True
-            if event.key == pygame.K_LEFT:
+            elif event.key == pygame.K_a:
                 self.move_left_flag = True
-            if event.key == pygame.K_RIGHT:
+            elif event.key == pygame.K_d:
                 self.move_right_flag = True
         elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_w:
                 self.move_up_flag = False
-            if event.key == pygame.K_DOWN:
+            elif event.key == pygame.K_s:
                 self.move_down_flag = False
-            if event.key == pygame.K_LEFT:
+            elif event.key == pygame.K_a:
                 self.move_left_flag = False
-            if event.key == pygame.K_RIGHT:
+            elif event.key == pygame.K_d:
                 self.move_right_flag = False
 
     def update(self):
@@ -122,22 +112,41 @@ class Player:
             self.y += self.speed
 
     def draw(self, screen):
-        # определяем цвет и размер игрока
-        color = (200, 225, 255)
+        # Определяем цвет и размер нейроигрока
+        color = (255, 0, 0)
         radius = 5
 
-        # определяем координаты вершин шестиугольника
+        # Определяем координаты вершин шестиугольника
         points = [
             (self.x - radius, self.y - radius),  # Верхняя левая вершина
             (self.x + radius, self.y - radius),  # Верхняя правая вершина
             (self.x + radius, self.y + radius),  # Нижняя правая вершина
-            (self.x - radius, self.y + radius)  # Нижняя левая вершина
+            (self.x - radius, self.y + radius)   # Нижняя левая вершина
         ]
 
-        # рисуем шестиугольник
+        # Рисуем шестиугольник
         pygame.draw.polygon(screen, color, points)
+
+    def handle_key_press(player, key):
+        if key == pygame.K_w:
+            player.move_up_flag = True
+        elif key == pygame.K_s:
+            player.move_down_flag = True
+        elif key == pygame.K_a:
+            player.move_left_flag = True
+        elif key == pygame.K_d:
+            player.move_right_flag = True
+
+    def handle_key_release(player,key):
+        if key == pygame.K_w:
+            player.move_up_flag = False
+        elif key == pygame.K_s:
+            player.move_down_flag = False
+        elif key == pygame.K_a:
+            player.move_left_flag = False
+        elif key == pygame.K_d:
+            player.move_right_flag = False
 
     def get_collision_bounds(self):
         return pygame.Rect(self.x - self.radius, self.y - self.radius,
                            self.radius * 2, self.radius * 2)
-
