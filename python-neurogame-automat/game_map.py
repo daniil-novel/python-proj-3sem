@@ -3,6 +3,7 @@ import map_rendering
 import constants
 
 
+
 # Создание двумерного массива, заполненного пустыми местами
 map_array = [[constants.EMPTY for y in range(constants.MAP_HEIGHT)] for x in range(constants.MAP_WIDTH)]
 
@@ -38,6 +39,13 @@ def add_traps():
         x = random.randint(1, constants.MAP_WIDTH - 2)
         y = random.randint(1, constants.MAP_HEIGHT - 2)
         map_array[x][y] = constants.TRAP
+
+
+def check_level_exit(player):
+    cell_x, cell_y = convert_to_cell(player.x, player.y)
+    if map_array[cell_x][cell_y] == constants.EXIT:
+        return True
+    return False
 
 
 def add_spawns():
@@ -113,6 +121,6 @@ def map_draw(map_array):
 
 
 # Инициализация карту
-map_init()
-map_draw(map_array)
+#map_init()
+#map_draw(map_array)
 # map_draw(map_array)

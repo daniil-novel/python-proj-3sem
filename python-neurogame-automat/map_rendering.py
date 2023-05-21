@@ -2,6 +2,8 @@ import pygame
 import constants
 import game_map as map
 from player import Player
+import sys
+
 
 
 def set_screen_size(size):
