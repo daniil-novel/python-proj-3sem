@@ -17,30 +17,39 @@ class NeuroPlayer:
         self.move_right_flag = False
         self.radius = radius
 
+    def reset(self):
+        spawn_point = map.spawn_points[1]
+        self.cell_x, self.cell_y = spawn_point
+        self.x = (self.cell_x * constants.TILE_SIZE) + (
+                    constants.TILE_SIZE // 2)
+        self.y = (self.cell_y * constants.TILE_SIZE) + (
+                    constants.TILE_SIZE // 2)
+
+        self.move_up_flag = False
+        self.move_down_flag = False
+        self.move_left_flag = False
+        self.move_right_flag = False
+
     def move_up(self):
         if map.is_wall(self.x, self.y - self.speed):
-            print("Cannot move up, there is a wall.")
             self.y += self.speed
         else:
             self.y -= self.speed
 
     def move_down(self):
         if map.is_wall(self.x, self.y + self.speed):
-            print("Cannot move down, there is a wall.")
             self.y -= self.speed
         else:
             self.y += self.speed
 
     def move_left(self):
         if map.is_wall(self.x - self.speed, self.y):
-            print("Cannot move left, there is a wall.")
             self.x += self.speed
         else:
             self.x -= self.speed
 
     def move_right(self):
         if map.is_wall(self.x + self.speed, self.y):
-            print("Cannot move right, there is a wall.")
             self.x -= self.speed
         else:
             self.x += self.speed
@@ -84,30 +93,22 @@ class NeuroPlayer:
             self.move_right()
 
     def move_up_left(self):
-        if map.is_wall(self.x - self.speed, self.y - self.speed):
-            print("Cannot move up-left, there is a wall.")
-        else:
+        if not map.is_wall(self.x - self.speed, self.y - self.speed):
             self.x -= self.speed
             self.y -= self.speed
 
     def move_up_right(self):
-        if map.is_wall(self.x + self.speed, self.y - self.speed):
-            print("Cannot move up-right, there is a wall.")
-        else:
+        if not map.is_wall(self.x + self.speed, self.y - self.speed):
             self.x += self.speed
             self.y -= self.speed
 
     def move_down_left(self):
-        if map.is_wall(self.x - self.speed, self.y + self.speed):
-            print("Cannot move down-left, there is a wall.")
-        else:
+        if not map.is_wall(self.x - self.speed, self.y + self.speed):
             self.x -= self.speed
             self.y += self.speed
 
     def move_down_right(self):
-        if map.is_wall(self.x + self.speed, self.y + self.speed):
-            print("Cannot move down-right, there is a wall.")
-        else:
+        if not map.is_wall(self.x + self.speed, self.y + self.speed):
             self.x += self.speed
             self.y += self.speed
 
@@ -127,26 +128,23 @@ class NeuroPlayer:
         # Рисуем шестиугольник
         pygame.draw.polygon(screen, color, points)
 
-    def handle_key_press(player, key):
-        if key == pygame.K_w:
-            player.move_up_flag = True
-        elif key == pygame.K_s:
-            player.move_down_flag = True
-        elif key == pygame.K_a:
-            player.move_left_flag = True
-        elif key == pygame.K_d:
-            player.move_right_flag = True
+    def is_approaching(self, player):
+        dx = self.x - player.x
+        dy = self.y - player.y
+        distance = (dx ** 2 + dy ** 2) ** 0.5
+        return distance <= 100
 
-    def handle_key_release(player,key):
-        if key == pygame.K_w:
-            player.move_up_flag = False
-        elif key == pygame.K_s:
-            player.move_down_flag = False
-        elif key == pygame.K_a:
-            player.move_left_flag = False
-        elif key == pygame.K_d:
-            player.move_right_flag = False
+    def check_wall_collision(self, map_array):
+        cell_x = int(self.x / constants.TILE_SIZE)
+        cell_y = int(self.y / constants.TILE_SIZE)
+        if map_array[cell_x][cell_y] == 1:
+            return True
+        return False
 
     def get_collision_bounds(self):
-        return pygame.Rect(self.x - self.radius, self.y - self.radius,
-                           self.radius * 2, self.radius * 2)
+        return pygame.Rect(
+            self.x - self.radius,
+            self.y - self.radius,
+            self.radius * 2,
+            self.radius * 2
+        )

@@ -21,7 +21,6 @@ def convert_to_cell(x, y):
 
 def is_wall(x, y):
     cell_x, cell_y = convert_to_cell(x, y)
-    print("cell x: ", cell_x, "cell y: ", cell_y)
     return map_array[cell_x][cell_y] == constants.WALL
 
 
@@ -39,7 +38,6 @@ def add_traps():
         x = random.randint(1, constants.MAP_WIDTH - 2)
         y = random.randint(1, constants.MAP_HEIGHT - 2)
         map_array[x][y] = constants.TRAP
-
 
 def check_level_exit(player):
     cell_x, cell_y = convert_to_cell(player.x, player.y)

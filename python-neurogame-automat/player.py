@@ -3,12 +3,12 @@ import pygame
 import game_map as map
 import time
 import constants
-
+"""
 def print_player_coordinates(player):
     while True:
         print(f"Player coordinates: ({player.x}, {player.y})")
         time.sleep(1)
-
+"""
 
 class Player:
     def __init__(self, x=110, y=210, speed=5, radius=5):
@@ -26,6 +26,19 @@ class Player:
         self.move_left_flag = False
         self.move_right_flag = False
         self.radius = radius
+
+    def reset(self):
+        spawn_point = map.spawn_points[0]
+        self.cell_x, self.cell_y = spawn_point
+        self.x = (self.cell_x * constants.TILE_SIZE) + (
+                    constants.TILE_SIZE // 2)
+        self.y = (self.cell_y * constants.TILE_SIZE) + (
+                    constants.TILE_SIZE // 2)
+
+        self.move_up_flag = False
+        self.move_down_flag = False
+        self.move_left_flag = False
+        self.move_right_flag = False
 
     def move_up(self):
         if map.is_wall(self.x, self.y - self.speed):
